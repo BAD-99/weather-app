@@ -6,10 +6,10 @@ import * as dom from "./dom.js";
 const loc = apis.getLocation();
 loc
   .then((geoPos) => {
-    console.log(geoPos);
     return getWeatherData(geoPos.coords.latitude, geoPos.coords.longitude);
   })
   .then((weatherData) => {
-    console.log(weatherData.forecast);
-    dom.displayHourlyTemperatures(weatherData.forecast.forecastday[0].hour)
+    // processed = apis.processWeatherData(weatherData, false);
+    console.log(apis.processWeatherData(weatherData, false));
+    // dom.displayWeatherForecast(weatherData);
   });

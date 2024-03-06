@@ -1,18 +1,57 @@
 // head/main pic switchable to different day
 
+export function displayWeatherForecast(weatherData) {
+  displayCurrentWeather(weatherData.current);
+}
+
 const currentSection = (() => {
   const container = document.createElement("div");
+
+  const topBox = document.createElement("div");
+  const highLowBox = document.createElement("div");
+  const high = document.createElement("div");
+  const low = document.createElement("div");
   const img = document.createElement("img");
-  const tempContainer = document.createElement("div");
+  const tempBox = document.createElement("div");
   const temperature = document.createElement("div");
   const feelsLike = document.createElement("div");
 
-  container.append(img, tempContainer);
-  tempContainer.append(temperature, feelsLike);
-  document.body.append(container);
+  const bottomBox = document.createElement("div");
+  const wordBox = document.createElement("div");
+  const locationName = document.createElement("div");
+  const condition = document.createElement("div");
+  const numBox = document.createElement("div");
+  const humidity = document.createElement("div");
+  const wind = document.createElement("div");
 
-  return { container, img, tempContainer, temperature, feelsLike };
+  container.append(topBox, bottomBox);
+
+  topBox.append(highLowBox, img, tempBox);
+  bottomBox.append(wordBox, numBox);
+
+  highLowBox.append(high, low);
+  tempBox.append(temperature, feelsLike);
+  wordBox.append(locationName, condition);
+  numBox.append(humidity, wind);
+
+  document.body.append(container);
+  return {
+    container,
+    high,
+    low,
+    img,
+    temperature,
+    feelsLike,
+    locationName,
+    condition,
+    humidity,
+    wind,
+  };
 })();
+
+function updateCurrentSection(weatherData) {
+  currentSection.temperature.textContent = currentWeather.temp_f + " °F";
+}
 
 //hourly forecast
 
@@ -49,8 +88,8 @@ const dailySection = (() => {
   return { container, days };
 })();
 
-export function displayHourlyTemperatures(hourlyData){
-  for(let i = 0; i < 24; i++){
+function displayHourlyTemperatures(hourlyData) {
+  for (let i = 0; i < 24; i++) {
     hourlySection.lis[i].textContent = hourlyData[i].temp_f;
   }
 }
