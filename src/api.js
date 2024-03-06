@@ -4,7 +4,8 @@ const base = "http://api.weatherapi.com/v1";
 export default async function getWeatherData(lat, long) {
   try {
     const response = await fetch(
-      base + "/forecast.json?key=" + k + "&q=" + lat + "," + long,
+    //   base + "/forecast.json?key=" + k + "&q=" + lat + "," + long,
+    `${base}/forecast.json?key=${k}&q=${lat},${long}&days=3`,
       {
         mode: "cors",
       }
