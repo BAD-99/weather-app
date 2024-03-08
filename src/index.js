@@ -9,7 +9,6 @@ loc
     return getWeatherData(geoPos.coords.latitude, geoPos.coords.longitude);
   })
   .then((weatherData) => {
-    // processed = apis.processWeatherData(weatherData, false);
-    console.log(apis.processWeatherData(weatherData, false));
-    // dom.displayWeatherForecast(weatherData);
+    let processed = apis.processWeatherData(weatherData, false);
+    dom.displayWeatherForecast(processed);
   });

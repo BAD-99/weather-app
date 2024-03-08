@@ -38,27 +38,33 @@ const metTemp = " °C";
 const metDist = "kph";
 
 export function processWeatherData(weatherData, useMetric) {
-  const current = {};
-  const hourly = [];
+  const current = processCurrentData(weatherData, useMetric);
+  const hourly = processHourlyData(weatherData, useMetric);
+  const daily = processDailyData(weatherData, useMetric);
+  return { current, hourly, daily };
+}
+
+const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+function processDailyData(weatherData, useMetric) {
   const daily = [];
-  console.log(weatherData);
-  if (!useMetric) {
-    current.temp = weatherData.current.temp_f + impTemp;
-    current.feelsLike = weatherData.current.feelsLike_f + impTemp;
-    current.high = weatherData.forecast.forecastday[0].day.maxtemp_f + impTemp;
-    current.low = weatherData.forecast.forecastday[0].day.mintemp_f + impTemp;
-    current.location = weatherData.location.name;
-    current.condition = weatherData.current.condition;
-    current.humidity = weatherData.current.humidity;
-    current.wind =
-      weatherData.current.wind_mph +
-      impDist +
-      " " +
-      weatherData.current.wind_dir;
-
-    for (let i = 0; i < 3; i++) {}
+  for (let i = 0; i < 3; i++) {
+    const day = weatherData.forecast.forecastday[i].day;
+    daily[i] = {};
+    daily[i].name =
+      weekDays[new Date(weatherData.forecast.forecastday[i].date).getDay()];
+    daily[i].high = day.maxtemp_f;
+    daily[i].low = day.mintemp_f;
+    daily[i].rain = day.daily_will_it_rain;
+    daily[i].snow = day.daily_will_it_snow;
+    daily[i].rainChance = day.daily_chance_of_rain;
+    daily[i].snowChance = day.daily_chance_of_snow;
   }
+  return daily;
+}
 
+function processHourlyData(weatherData, useMetric) {
+  const hourly = [];
   const currentHour = new Date(Date.now()).getHours() - 1;
   for (let i = 0; i < 24; i++) {
     const day = i + currentHour >= 24 ? 1 : 0;
@@ -74,6 +80,24 @@ export function processWeatherData(weatherData, useMetric) {
     hourly[i].rainChance = selected.chance_of_rain;
     hourly[i].snowChance = selected.chance_of_snow;
   }
+  return hourly;
+}
 
-  return {current, hourly, daily};
+function processCurrentData(weatherData, useMetric) {
+  const current = {};
+  if (!useMetric) {
+    current.temperature = weatherData.current.temp_f + impTemp;
+    current.feelsLike = weatherData.current.feelslike_f + impTemp;
+    current.high = weatherData.forecast.forecastday[0].day.maxtemp_f + impTemp;
+    current.low = weatherData.forecast.forecastday[0].day.mintemp_f + impTemp;
+    current.location = weatherData.location.name;
+    current.condition = weatherData.current.condition;
+    current.humidity = weatherData.current.humidity;
+    current.wind =
+      weatherData.current.wind_mph +
+      impDist +
+      " " +
+      weatherData.current.wind_dir;
+  }
+  return current;
 }
