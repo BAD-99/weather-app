@@ -1,11 +1,20 @@
 // head/main pic switchable to different day
 
+import waterPercent from "../assets/water-percent.svg";
+import sunny from "../assets/weather-sunny.svg";
+import night from "../assets/weather-night.svg";
+import rainy from "../assets/weather-rainy.svg";
+import snowy from "../assets/weather-snowy.svg";
+import snowyRainy from "../assets/weather-snowy-rainy.svg";
+
 export function displayWeatherForecast(processedWeatherData) {
   displayCurrentWeather(processedWeatherData.current);
+  displayHourlyWeather(processedWeatherData.hourly);
 }
 
 function displayCurrentWeather(data) {
   const section = currentSection;
+  section.img.src = getWeatherImage(data.day, data.rain, data.snow);
   section.high.textContent = data.high;
   section.low.textContent = data.high;
   section.temperature.textContent = data.temperature;
@@ -14,6 +23,32 @@ function displayCurrentWeather(data) {
   section.condition.textContent = data.condition.text;
   section.humidity.textContent = data.humidity;
   section.wind.textContent = data.wind;
+}
+
+function displayHourlyWeather(hourly) {
+  for (let i = 0; i < 24; i++) {
+    const hour = hourlySection.hours[i];
+    const data = hourly[i];
+    hour.name.textContent = data.hour;
+    hour.img.src = getWeatherImage(data.day, data.rain, data.rain);
+    hour.temperature.textContent = data.temperature;
+    hour.precipitationImg.src = waterPercent;
+    hour.percent.textContent = Math.max(data.rainChance, data.snowChance);
+  }
+}
+
+function getWeatherImage(isDay, isRain, isSnow) {
+  if (isSnow && isRain) {
+    return snowyRainy;
+  } else if (isRain) {
+    return rainy;
+  } else if (isSnow) {
+    return snowy;
+  } else if (isDay) {
+    return sunny;
+  } else {
+    return night;
+  }
 }
 
 const currentSection = (() => {

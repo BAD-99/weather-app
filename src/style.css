@@ -1,0 +1,18 @@
+li img{
+    width: 2rem;
+    height: 2rem;
+}
+
+img{
+    width: 8rem;
+    height: 8rem;
+}
+
+li{
+    margin: 0.5rem;
+}
+
+ul{
+    display: flex;
+    list-style: none;
+}

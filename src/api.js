@@ -77,8 +77,10 @@ function processHourlyData(weatherData, useMetric) {
     hourly[i].temperature = useMetric ? selected.temp_c : selected.temp_f;
     hourly[i].rain = selected.will_it_rain;
     hourly[i].snow = selected.will_it_snow;
+    hourly[i].day = selected.is_day;
     hourly[i].rainChance = selected.chance_of_rain;
     hourly[i].snowChance = selected.chance_of_snow;
+    console.log(selected.chance_of_rain);
   }
   return hourly;
 }
@@ -93,6 +95,7 @@ function processCurrentData(weatherData, useMetric) {
     current.location = weatherData.location.name;
     current.condition = weatherData.current.condition;
     current.humidity = weatherData.current.humidity;
+    current.day = weatherData.current.is_day;
     current.wind =
       weatherData.current.wind_mph +
       impDist +
