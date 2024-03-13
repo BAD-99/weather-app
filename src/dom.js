@@ -10,10 +10,16 @@ import snowyRainy from "../assets/weather-snowy-rainy.svg";
 export function displayWeatherForecast(processedWeatherData) {
   displayCurrentWeather(processedWeatherData.current);
   displayHourlyWeather(processedWeatherData.hourly);
+  displayDailyData(processedWeatherData.daily);
 }
 
 function displayCurrentWeather(data) {
   const section = currentSection;
+  if (data.isDay) {
+    document.body.classList.toggle("night", false);
+  } else {
+    document.body.classList.toggle("night", true);
+  }
   section.img.src = getWeatherImage(data.day, data.rain, data.snow);
   section.high.textContent = data.high;
   section.low.textContent = data.high;
@@ -34,6 +40,19 @@ function displayHourlyWeather(hourly) {
     hour.temperature.textContent = data.temperature;
     hour.precipitationImg.src = waterPercent;
     hour.percent.textContent = Math.max(data.rainChance, data.snowChance);
+  }
+}
+
+function displayDailyData(daily) {
+  for (let i = 0; i < 3; i++) {
+    const day = dailySection.days[i];
+    const data = daily[i];
+    day.name.textContent = data.name;
+    day.img.src = getWeatherImage(true, data.rain, data.snow);
+    day.high.textContent = data.high;
+    day.low.textContent = data.low;
+    day.precipitationImg.src = waterPercent;
+    day.percent.textContent = Math.max(data.rainChance, data.snowChance);
   }
 }
 
@@ -72,11 +91,13 @@ const currentSection = (() => {
   const wind = document.createElement("div");
 
   container.append(topBox, bottomBox);
+  container.classList.add("current");
 
   topBox.append(highLowBox, img, tempBox);
   bottomBox.append(wordBox, numBox);
 
   highLowBox.append(high, low);
+  highLowBox.classList.add("high-low");
   tempBox.append(temperature, feelsLike);
   wordBox.append(location, condition);
   numBox.append(humidity, wind);
@@ -124,6 +145,7 @@ const hourlySection = (() => {
   }
 
   container.append(info, ul);
+  container.classList.add("hourly");
   document.body.append(container);
 
   return { container, info, hours };
@@ -153,12 +175,13 @@ const dailySection = (() => {
 
     infoBox.append(day.name, day.img);
     highLowBox.append(day.high, day.low);
+    highLowBox.classList.add("high-low");
     precipBox.append(day.precipitationImg, day.percent);
 
-    days.push(box);
+    days.push(day);
   }
 
-  container.append(...days);
+  container.classList.add("daily");
   document.body.append(container);
 
   return { container, days };

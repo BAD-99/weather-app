@@ -1,18 +1,155 @@
-li img{
-    width: 2rem;
-    height: 2rem;
+@import url("https://fonts.googleapis.com/css2?family=Madimi+One&display=swap");
+
+* {
+  font-family: "Madimi One", Arial, Helvetica, sans-serif;
 }
 
-img{
-    width: 8rem;
-    height: 8rem;
+body {
+  margin: 0;
+  padding: 0;
+  background-image: url("../assets/day.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+body > div{
+  margin: 1rem;
 }
 
-li{
-    margin: 0.5rem;
+.night {
+  background-image: url("../assets/night.svg");
+  color:white;
 }
 
-ul{
-    display: flex;
-    list-style: none;
+.night img{
+  filter: invert(1);
+}
+
+li img {
+  width: 2rem;
+  height: 2rem;
+}
+
+.current {
+  width: 600px;
+  font-size: 2rem;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  padding: 2rem;
+}
+
+.hourly{
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  padding-bottom: 2rem;
+}
+
+.daily {
+  font-size: 2rem;
+}
+
+.current > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.current img {
+  width: 8rem;
+  height: 8rem;
+}
+
+.high-low > div {
+  position: relative;
+  font-size: 2rem;
+}
+
+.high-low > div:first-of-type::after {
+  content: url("../assets/triangle.svg");
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  left: -1.2rem;
+  top: -0.3rem;
+}
+
+.high-low > div:last-of-type::after {
+  content: url("../assets/triangle-down.svg");
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  left: -1.2rem;
+  top: -0.3rem;
+}
+
+.night .high-low>div::after{
+  filter: invert(1);
+}
+
+.daily {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+}
+
+.daily > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2rem;
+  padding: 1rem;
+  margin: 1rem;
+}
+
+.daily > div > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.daily > div > div:last-of-type {
+  flex-direction: row;
+}
+
+.daily > div > div:first-of-type > img {
+  width: 6rem;
+  height: 6rem;
+}
+.daily > div > div:last-of-type > img {
+  width: 4rem;
+  height: 4rem;
+}
+
+li {
+  margin: 0.7rem;
+  position: relative;
+}
+
+ul {
+  display: flex;
+  list-style: none;
+  padding: 0 1rem;
+}
+
+li, li>div:first{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+li>div:last-of-type{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: -0.7rem;
+}
+
+li div{
+  text-align: center;
 }
